@@ -14,129 +14,69 @@ NOTES: 		Don't use any built-in C functions for comparisions. You are free to wr
 */
 
 int isOlder(char *dob1, char *dob2) {
-	int i = 0,length1,length2;
+	int i = 0,length1,length2,y1,y2,m1,m2,d1,d2;
 
 	for (i = 0; dob1[i]!='\0'; ++i);
 	length1 = i;
 	for (i = 0; dob2[i]!='\0'; ++i);
 	length2 = i;
 
-	if (dob1[0] < 4 || dob2[0] < 4 || dob1[3] < 2 || dob2[3] < 2)
+	for (i = 0; i < 9; i++)
 	{
-		return -1;
+		if (dob1[i] >= 'a' && dob1[i] <= 'z' || dob1[i] >= 'A' && dob1[i] <= 'Z' || dob2[i] >= 'a' && dob2[i] <= 'z' || dob2[i] >= 'A' && dob2[i] <= 'Z')
+			return -1;
 	}
-	else if ((dob1[3] == 1 && dob1[4] < 3) || (dob2[3] == 1 && dob2[4] < 3))
-	{
-		return -1;
-	}
-	else if ((dob1[0] <= 3 && dob1[1] < 2) || (dob2[0] <= 3 && dob2[1] < 2))
-	{
-		return -1;
-	}
-	else if ((dob1[3] == 0 && dob1[4] == 2 && dob1[0] == 2 && dob1[0] == 9) || (dob2[3] == 0 && dob2[4] && dob2[0] == 2 && dob2[0] == 9))
-	{
-		return -1;
-	}
-	else if (length1 == 10 && length2 == 10 )
+	
+
+	d1 =(((dob1[0] - '0') * 10) + (dob1[1] - '0'));
+	d2 = (((dob2[0] - '0') * 10) + (dob2[1] - '0'));
+	m1 = (((dob1[3] - '0') * 10) + (dob1[4] - '0'));
+	m2 = (((dob2[3] - '0') * 10) + (dob2[4] - '0'));
+	y1 = ((dob1[6] - '0') * 1000) + ((dob1[7] - '0') * 100) + ((dob1[8] - '0') * 10) + (dob1[9] - '0');
+	y2 = ((dob2[6] - '0') * 1000) + ((dob2[7] - '0') * 100) + ((dob2[8] - '0') * 10) + (dob2[9] - '0');
+	if (length1 == 10 && length2 == 10 )
 	{
 
-		for (i = 0; i < 9; i++)
-		{
-			if (dob1[i] >= 'a' && dob1[i] <= 'z' || dob1[i] >= 'A' && dob1[i] <= 'Z' || dob2[i] >= 'a' && dob2[i] <= 'z' || dob2[i] >= 'A' && dob2[i] <= 'Z')
-				return -1;
-		}
-
-
-		if (dob1[6]<dob2[6])
-		{
-			return 1;
-		}
-		else if (dob1[6]>dob2[6])
-		{
-			return 2;
-		}
-
+		if (m1 >= 13 || m2 >= 13)
+			return -1;
+		else if ((m1 == (1 || 3 || 5 || 7 || 8 || 10 || 12)) && (d1 >= 32))
+			return -1;
+		else if ((m2 == (1 || 3 || 5 || 7 || 8 || 10 || 12)) && (d2 >= 32))
+			return -1;
+		else if ((m1 == (4 || 6 || 9 || 11)) && (d1 >= 31))
+			return -1;
+		else if ((m2 == (4 || 6 || 9 || 11)) && (d2 >= 31))
+			return -1;
+		else if (((m1 == 2) && (y1 % 4 == 0) && (d1 >= 30)) || ((m1 == 2) && (y1 % 4 != 0) && (d1 >= 29)))
+			return -1;
+		else if (((m2 == 2) && (y2 % 4 == 0) && (d2 >= 30)) || ((m2 == 2) && (y2 % 4 != 0) && (d2 >= 29)))
+			return -1;
 		else
 		{
-			if (dob1[7]<dob2[7])
-			{
-				return 1;
-			}
-			else if (dob1[7]>dob2[7])
-			{
+			if (y1 > y2)
 				return 2;
-			}
+			else if (y1 < y2)
+				return 1;
 			else
 			{
-				if (dob1[8]<dob2[8])
-				{
-					return 1;
-				}
-				else if (dob1[8]>dob2[8])
-				{
+				if (m1>m2)
 					return 2;
-				}
+				else if (m1 < m2)
+					return 1;
 				else
 				{
-					if (dob1[9]<dob2[9])
-					{
-						return 1;
-					}
-					else if (dob1[9]>dob2[9])
-					{
+					if (d1>d2)
 						return 2;
-					}
+					else if (d1 < d2)
+						return 1;
 					else
-					{
-						if (dob1[3]<dob2[3])
-						{
-							return 1;
-						}
-						else if (dob1[3]>dob2[3])
-						{
-							return 2;
-						}
-						else
-						{
-							if (dob1[4]<dob2[4])
-							{
-								return 1;
-							}
-							else if (dob1[4]>dob2[4])
-							{
-								return 2;
-							}
-							else
-							{
-								if (dob1[0]<dob2[0])
-								{
-									return 1;
-								}
-								else if (dob1[0]>dob2[0])
-								{
-									return 2;
-								}
-								else
-								{
-									if (dob1[1]<dob2[1])
-									{
-										return 1;
-									}
-									else if (dob1[1]>dob2[1])
-									{
-										return 2;
-									}
-									else
-									{
-										return 0;
-									}
-								}
-							}
-						}
-					}
+						return 0;
 				}
+
 			}
 		}
+		
+
 
 	}
 	else
