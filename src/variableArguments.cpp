@@ -21,12 +21,13 @@ int variableArguments(int arg_count, ...)
 	int i = arg_count, greatest = 90, count = 0,index;
 
 	va_start(ap, arg_count);
-	while (i<100)
+	for (index = 0; index < arg_count;index++)
 	{
 	
-		if (greatest < i)
+		if (greatest < va_arg(ap, int))
 			count++;
-		i = va_arg(ap, int);
+		
 	}
+	va_end(ap);
 	return count;
 }
